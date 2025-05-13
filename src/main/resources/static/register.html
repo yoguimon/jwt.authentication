@@ -24,12 +24,12 @@
                                 </a>
                             </div>
                             <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Sign up a new account</h2>
-                            <form action="#!">
+                            <form action="#!" id="registerForm">
                                 <div class="row gy-2 overflow-hidden">
                                     <div class="col-12">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" name="name" id="name" placeholder="Juan Carlos" required>
-                                            <label for="name" class="form-label">FirstName</label>
+                                            <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Juan Carlos" required>
+                                            <label for="firstname" class="form-label">FirstName</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -66,5 +66,7 @@
             </div>
         </div>
     </section>
+    <script src="js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

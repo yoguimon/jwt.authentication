@@ -20,6 +20,7 @@ import java.util.Optional;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
+    //aqui configuramos como spring authenticara un usuario
     private final UserRepository repository;
     /*@Bean
     public UserDetailsService userDetailsService(){

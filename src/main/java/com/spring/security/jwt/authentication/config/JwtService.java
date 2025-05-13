@@ -16,6 +16,19 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     private static final String SECRET_KEY = "bd0c32589b2bf3a8419ce6426bef46516bd4260fbe3dc7ea08a642df2226c7ea";
+    public String generateToken(UserDetails userDetails){
+        return generateToken(new HashMap<>(), userDetails);
+    }
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
+        return Jwts
+                .builder()
+                .setClaims(extraClaims) //puedo agregar info adicional al token como rol, email,etc
+                .setSubject(userDetails.getUsername()) //quien esta authenticado
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *24))//ambos controlan el tiempo de validez
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)//firma con clave y algoritmo
+                .compact();//finalmente construye y devuelve el jwt en forma de string
+    }
     public String extractUsername(String token) {//1
         //return extractClaim(token, Claims::getSubject);
         return extractClaim(token, claims -> claims.getSubject());
@@ -23,19 +36,6 @@ public class JwtService {
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
-    }
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
-    }
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *24))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
     }
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username =  extractUsername(token);

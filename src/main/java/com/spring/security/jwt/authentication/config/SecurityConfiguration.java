@@ -22,6 +22,12 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(
+                                "/login.html",
+                                "/register.html",
+                                "/js/**",        // si tienes un directorio js en static
+                                "/css/**"    // si usas CSS
+                        ).permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
